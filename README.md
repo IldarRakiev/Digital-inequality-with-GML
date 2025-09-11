@@ -1,12 +1,12 @@
 # A GNN Approach to Global Digital Inequality
-A research project focused on analyzing and mapping **digital inequality** using **Graph Neural Networks (GNNs)**.   The project is developed as part of the **Data and Knowledge Representation** and **Practical Machine Learning and Deep Learning** courses.
+A research project focused on analyzing and mapping **digital inequality** using **Graph Neural Networks (GNNs)**. The project is developed as part of the **Data and Knowledge Representation** and **Practical Machine Learning and Deep Learning** courses.
 
 
 ## 🚀 Introduction
 Digital inequality refers to the global gap in internet access, digital skills, and technological resources.  
 
 Our objectives are:  
-- Build a graph where nodes represent countries and edges represent similarities or connections (e.g., socioeconomic or geographical).  
+- Build a graph where nodes represent countries or cities (will be considered later) and edges represent similarities or connections (e.g., socioeconomic or geographical).  
 - Apply **GNNs** to predict vulnerable regions, identify clusters, and construct a "digital divide map."  
 - Compare performance against classical ML models.  
 - Provide visualizations and an interactive tool to demonstrate insights.
@@ -44,16 +44,16 @@ The focus will be on model evaluation, hyperparameter tuning, and interpretabili
 
 ## ⚙️ Workflow
 1. **Data collection & cleaning** (country-level indicators).  
-2. **Graph construction** (nodes = countries, edges = similarities or geographic connections).  
+2. **Graph construction** (example: nodes = countries, edges = similarities or geographic connections).  
 3. **Baseline models** (classical ML without graph structure).  
 4. **GNN experiments** (GCN, GraphSAGE, GAT).  
 5. **Visualization** (clusters, digital divide maps).  
 6. **Deployment** (prototype dashboard or web app).
+7. **Documentation & reporting** (progress reports, final paper, presentation).
 
 ## 🛠 Proposed Tech Stack
 - Python 3.10  
 - PyTorch Geometric  
 - Pandas, NumPy  
 - NetworkX  
-- Matplotlib / Plotly (for visualization) 
-8. **Documentation & reporting** (progress reports, final paper, presentation).  
+- Matplotlib / Plotly (for visualization)   
