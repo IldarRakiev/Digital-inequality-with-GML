@@ -1,2 +1,59 @@
-# Digital-inequality-with-GML
-A research project focused on analyzing and mapping **digital inequality** using **Graph Neural Networks (GNNs)**.   The project is developed as part of the **Data and Knowledge Representation** and **Practical Machine Learning and Deep Learning** courses.  
+# A GNN Approach to Global Digital Inequality
+A research project focused on analyzing and mapping **digital inequality** using **Graph Neural Networks (GNNs)**.   The project is developed as part of the **Data and Knowledge Representation** and **Practical Machine Learning and Deep Learning** courses.
+
+
+## 🚀 Introduction
+Digital inequality refers to the global gap in internet access, digital skills, and technological resources.  
+
+Our objectives are:  
+- Build a graph where nodes represent countries and edges represent similarities or connections (e.g., socioeconomic or geographical).  
+- Apply **GNNs** to predict vulnerable regions, identify clusters, and construct a "digital divide map."  
+- Compare performance against classical ML models.  
+- Provide visualizations and an interactive tool to demonstrate insights.
+
+## 👥 Motivation/Target Audience
+
+Understanding **where and why digital inequality emerges** is crucial to closing this gap. 
+Graph-based approaches are a natural fit: they allow us to model countries, communities, and their relations as interconnected systems, helping reveal **hidden structures and clusters of inequality**.  
+Project aims to combine data science and social impact by creating a **graph-based map of the global digital divide**.
+
+This project is intended for:  
+- **Researchers and educators** — who study digital inequality and seek data-driven insights.  
+- **Policy makers and NGOs** — who design initiatives to close the digital divide.  
+- **Data scientists and ML students** — who want practical examples of applying GNNs to real-world social problems.   
+
+
+## 📊 Proposed Data Sources (it could be modified later)
+Planned data sources include:  
+- [World Bank Open Data](https://data.worldbank.org/) — internet penetration, GDP, education.  
+- [ITU ICT Statistics](https://www.itu.int/en/ITU-D/Statistics/Pages/stat/default.aspx) — ICT development indicators.  
+- [UNESCO Open Data](https://data.uis.unesco.org/) — education and digital skills metrics.  
+
+**Steps:** preprocessing, normalization, and integration into a unified graph dataset.
+
+
+## 🧠 Models
+We plan to explore and benchmark:  
+- **Baselines:** Random Forest, Logistic Regression.  
+- **GNN models:**  
+  - Graph Convolutional Network (GCN)  
+  - GraphSAGE  
+  - Graph Attention Network (GAT)  
+
+The focus will be on model evaluation, hyperparameter tuning, and interpretability of results.
+
+## ⚙️ Workflow
+1. **Data collection & cleaning** (country-level indicators).  
+2. **Graph construction** (nodes = countries, edges = similarities or geographic connections).  
+3. **Baseline models** (classical ML without graph structure).  
+4. **GNN experiments** (GCN, GraphSAGE, GAT).  
+5. **Visualization** (clusters, digital divide maps).  
+6. **Deployment** (prototype dashboard or web app).
+
+## 🛠 Proposed Tech Stack
+- Python 3.10  
+- PyTorch Geometric  
+- Pandas, NumPy  
+- NetworkX  
+- Matplotlib / Plotly (for visualization) 
+8. **Documentation & reporting** (progress reports, final paper, presentation).  
