@@ -23,13 +23,15 @@ This project is intended for:
 - **Data scientists and ML students** — who want practical examples of applying GNNs to real-world social problems.   
 
 
-## 📊 Proposed Data Sources (it could be modified later)
+## 📊 Proposed Data Sources
 Planned data sources include:  
-- [World Bank Open Data](https://data.worldbank.org/) — internet penetration, GDP, education.  
-- [ITU ICT Statistics](https://www.itu.int/en/ITU-D/Statistics/Pages/stat/default.aspx) — ICT development indicators.  
-- [UNESCO Open Data](https://data.uis.unesco.org/) — education and digital skills metrics.  
+- [Internet and Mobile Adoption Worldwide](https://www.opendatabay.com/data/ai-ml/c6b68ad2-832c-4efa-bd32-c9ad33f44678) — internet penetration, GDP.  
+- [Global Internet Usage by Country (2000-2023)](https://deepdatalake.com/details.php?dataset_id=7) — ICT development indicators.  
+- [UNESCO Open Data](https://data.uis.unesco.org/) — education and digital skills metrics related to Internet usage and availability.  
 
 **Steps:** preprocessing, normalization, and integration into a unified graph dataset.
+
+**Important note:** we reserve the right to add new datasets or exclude some of the current ones during the development process, depending on their relevance and suitability for our research goals.
 
 
 ## 🧠 Models
