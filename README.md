@@ -26,7 +26,7 @@ This project is intended for:
 ## 📊 Proposed Data Sources
 Planned data sources include:  
 - [Internet and Mobile Adoption Worldwide](https://www.opendatabay.com/data/ai-ml/c6b68ad2-832c-4efa-bd32-c9ad33f44678) — internet penetration, GDP.  
-- [Global Internet Usage by Country (2000-2023)](https://deepdatalake.com/details.php?dataset_id=7) — ICT development indicators.  
+- [Global poverty and inequality dataset](https://www.kaggle.com/datasets/utkarshx27/global-poverty-and-inequality-dataset) — Kaggle dataset of Global poverty and inequality by the World Bank.  
 - [UNESCO Open Data](https://data.uis.unesco.org/) — education and digital skills metrics related to Internet usage and availability.  
 
 **Steps:** preprocessing, normalization, and integration into a unified graph dataset.
