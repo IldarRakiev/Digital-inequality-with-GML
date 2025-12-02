@@ -2,11 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import * as topojson from 'topojson-client';
 import world from '../../public/data/world-110m.json';
-import './ClusterMap.css';
+import './ClusterMap.css'; // используем те же стили
 
-const MIN_YEAR = 2014;
+const MIN_YEAR = 2015;  // минимум для динамики
 const MAX_YEAR = 2028;
-const INTER_YEAR = 2020;  // стартовый год
 
 const COUNTRY_MAPPING = {
   'United States': 'United States of America',
@@ -33,38 +32,80 @@ const COUNTRY_MAPPING = {
   'Eswatini': 'Eswatini'
 };
 
-const clusterColors = {
-  0: '#F76C5E',  // красный - низкий уровень
-  1: '#A8D5BA',  // зеленый - средний уровень
-  2: '#2E86AB',  // синий - высокий уровень
-  default: '#eee' // нет данных
+const TREND_COLORS = {
+  improved: '#0028d8ff',  // синий - улучшение
+  stable: '#7b86baff',    // зеленый - стабильно
+  declined: '#d74e4eff',  // красный - ухудшение
+  default: '#e0e0e0'    // серый - нет данных
 };
 
-const ClusterMap = () => {
+const DynamicMap = () => {
   const svgRef = useRef();
   const tooltipRef = useRef();
   const sliderRef = useRef();
 
-  const [currentYear, setCurrentYear] = useState(INTER_YEAR);
-  const [clustersData, setClustersData] = useState({});
+  const [currentYear, setCurrentYear] = useState(2020);
+  const [trendsData, setTrendsData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
   const [error, setError] = useState(null);
 
   const fetchData = async (year) => {
+    if (year <= MIN_YEAR) {
+      setIsLoading(false);
+      setError('Year must be 2015+');
+      setTrendsData({});
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
+
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/predict/clusters/${year}`);
-      if (!response.ok) throw new Error(`Error when uploading ${year} year data`);
-      const data = await response.json();
-      const mapData = {};
-      data.clusters.forEach(({ country, cluster }) => {
+      const [currResponse, prevResponse] = await Promise.all([
+        fetch(`${import.meta.env.VITE_API_URL}/predict/clusters/${year}`),
+        fetch(`${import.meta.env.VITE_API_URL}/predict/clusters/${year - 1}`)
+      ]);
+
+      if (!currResponse.ok || !prevResponse.ok) {
+        throw new Error(`Error when uploading data for ${year} and ${year - 1}`);
+      }
+
+      const [currData, prevData] = await Promise.all([
+        currResponse.json(),
+        prevResponse.json()
+      ]);
+
+      const currMap = {};
+      const prevMap = {};
+
+      currData.clusters.forEach(({ country, cluster }) => {
         const mapCountryName = COUNTRY_MAPPING[country] || country;
-        mapData[mapCountryName] = cluster;
+        currMap[mapCountryName] = cluster;
       });
-      setClustersData(mapData);
-      updateMapColors(mapData);
+      prevData.clusters.forEach(({ country, cluster }) => {
+        const mapCountryName = COUNTRY_MAPPING[country] || country;
+        prevMap[mapCountryName] = cluster;
+      });
+
+      const trendsMap = {};
+      Object.keys(currMap).forEach(country => {
+        const currCluster = currMap[country];
+        const prevCluster = prevMap[country];
+
+        if (prevCluster === undefined) {
+          trendsMap[country] = 'default';
+        } else if (currCluster > prevCluster) {
+          trendsMap[country] = 'improved';
+        } else if (currCluster < prevCluster) {
+          trendsMap[country] = 'declined';
+        } else {
+          trendsMap[country] = 'stable';
+        }
+      });
+
+      setTrendsData(trendsMap);
+      updateMapColors(trendsMap);
     } catch (err) {
       setError(err.message);
       updateMapColors({});
@@ -100,6 +141,15 @@ const ClusterMap = () => {
       .append('g')
       .attr('class', 'map-container');
 
+    mapGroup.append('text')
+      .attr('class', 'year-text')
+      .attr('x', width / 2)
+      .attr('y', height - 30)
+      .attr('text-anchor', 'middle')
+      .style('font-size', '20px')
+      .style('font-weight', 'bold')
+      .text(`Cluster Dynamics — ${currentYear - 1} → ${currentYear}`);
+
     const projection = d3.geoMercator()
       .scale(120)
       .translate([width / 2, height / 1.5]);
@@ -118,16 +168,12 @@ const ClusterMap = () => {
       .attr('stroke-width', 0.5)
       .on('mouseover', function (event, d) {
         const countryName = d.properties.name;
-        const cluster = clustersData[countryName];
-        if (cluster !== undefined) {
+        const trend = trendsData[countryName];
+        if (trend !== undefined) {
           this.parentNode.appendChild(this);
           const [[x0, y0], [x1, y1]] = path.bounds(d);
           const centerX = (x0 + x1) / 2;
           const centerY = (y0 + y1) / 2;
-
-          const legendGroup = svg.append('g')
-            .attr('class', 'legend')
-            .attr('transform', `translate(20, 60)`);
 
           d3.select(this)
             .transition()
@@ -140,8 +186,8 @@ const ClusterMap = () => {
             .html(`
               <div class="tooltip-content">
                 <h4>${countryName}</h4>
-                <p>Cluster: ${cluster}</p>
-                <p>Year: ${currentYear}</p>
+                <p>Trend: ${trend}</p>
+                <p>Years: ${currentYear - 1} → ${currentYear}</p>
               </div>
             `)
             .style('left', (event.pageX + 15) + 'px')
@@ -157,43 +203,31 @@ const ClusterMap = () => {
         d3.select(tooltipRef.current).style('opacity', 0);
       });
 
-      mapGroup.append('text')
-      .attr('class', 'year-text')
-      .attr('x', width / 2)
-      .attr('y', height - 30)
-      .attr('text-anchor', 'middle')
-      .style('font-size', '20px')
-      .style('font-weight', 'bold')
-      .text(`Digital Inequality Clusters — ${currentYear}`);
+    // Легенда
+    const legendGroup = mapGroup.append('g')
+      .attr('class', 'legend')
+      .attr('transform', `translate(${width - 140}, ${height - 120})`);
 
-      const legendGroup = mapGroup.append('g')
-        .attr('class', 'legend')
-        .attr('transform', `translate(${width - 120}, ${height - 100})`);
+    let i = 0;
+    for (const [trend, color] of Object.entries(TREND_COLORS)) {
+      if (trend === 'default') continue;
 
-      let i = 0;
-        for (const [cluster, color] of Object.entries(clusterColors)) {
-        if (cluster === 'default') continue;  // пропускаем default цвет
+      legendGroup.append('rect')
+        .attr('x', 0)
+        .attr('y', i * 22)
+        .attr('width', 18)
+        .attr('height', 18)
+        .attr('fill', color);
 
-        legendGroup.append('rect')
-            .attr('x', 0)
-            .attr('y', i * 22)
-            .attr('width', 18)
-            .attr('height', 18)
-            .attr('fill', color);
+      legendGroup.append('text')
+        .attr('x', 25)
+        .attr('y', i * 22 + 14)
+        .text(trend === 'improved' ? 'Improvement' : trend === 'stable' ? 'Stable' : 'Decline')
+        .style('font-size', '12px')
+        .attr('alignment-baseline', 'middle');
 
-        legendGroup.append('text')
-            .attr('x', 25)
-            .attr('y', i * 22 + 14)
-            .text(
-            cluster === '0' ? 'Low' :
-            cluster === '1' ? 'Medium' :
-            cluster === '2' ? 'High' : cluster
-            )
-            .style('font-size', '12px')
-            .attr('alignment-baseline', 'middle');
-
-        i++;
-        }
+      i++;
+    }
   };
 
   const updateMapColors = (dataMap) => {
@@ -203,12 +237,12 @@ const ClusterMap = () => {
       .duration(800)
       .attr('fill', d => {
         const countryName = d.properties.name;
-        const cluster = dataMap[countryName];
-        return clusterColors[cluster] || clusterColors.default;
+        return TREND_COLORS[dataMap[countryName]] || TREND_COLORS.default;
       });
-    
-    // Обновляем название года в заголовке карты
-    svg.select('text.year-text').text(`Digital Inequality Clusters — ${currentYear}`);
+
+    svg.select('text.year-text')
+      .text(`Cluster Dynamics — ${currentYear - 1} → ${currentYear}`)
+      .raise();
   };
 
   useEffect(() => {
@@ -231,7 +265,7 @@ const ClusterMap = () => {
         )}
 
         <div className="year-display">
-          {currentYear}
+          {currentYear - 1} → {currentYear}
         </div>
 
         <input
@@ -252,4 +286,4 @@ const ClusterMap = () => {
   );
 };
 
-export default ClusterMap;
+export default DynamicMap;

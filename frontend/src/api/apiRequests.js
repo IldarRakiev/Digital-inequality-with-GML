@@ -14,7 +14,7 @@ export const api = {
         return response.data;
     },
 
-    getTrends: async (country, yearsBack = 5) => {
+    getTrends: async (country, yearsBack = 10) => {
         const response = await axios.get(
             `${API_BASE}/predict/trends/${country}?years_back=${yearsBack}`
         );

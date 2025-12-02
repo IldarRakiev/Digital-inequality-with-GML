@@ -74,7 +74,7 @@ class PredictionService:
             cluster_distribution=cluster_distribution
         )       
     
-    def _get_historical_clusters(self, year: int) -> List[Dict]:
+    def _get_historical_clusters(self, year: int) -> List[CountryCluster]:
         """Get clusters for historical data"""
         # Filter nodes by year
         year_mask = self._get_year_mask(year)
@@ -88,7 +88,7 @@ class PredictionService:
         
         return self._format_results(clusters, year, "historical")
     
-    def _get_future_clusters(self, year: int) -> List[Dict]:
+    def _get_future_clusters(self, year: int) -> List[CountryCluster]:
         """Get feature clusters"""
         # Filter nodes years by year
         year_mask = self.future_data.years == year
@@ -164,7 +164,7 @@ class PredictionService:
                 if country_cluster:
                     trends.append(ClusterTrend(
                         year=year,
-                        cluster=country_cluster.cluster,
+                        cluster=country_cluster.cluster
                     ))
                     cluster_history.append(country_cluster.cluster)
         
@@ -350,6 +350,28 @@ class PredictionService:
         # Return top 10 most informative features (highest variance)
         stats.sort(key=lambda x: x.std_dev, reverse=True)
         return stats[:10]
+    
+    def _get_node_id_for_country_year(self, country: str, year: int) -> Optional[int]:
+        """Find node ID for specific country and year"""
+        try:
+            # For historical data - use pivot_df mapping
+            country_data = self.pivot_df[
+                (self.pivot_df['Economy'] == country) & 
+                (self.pivot_df['Year'] == year)
+            ]
+            if not country_data.empty:
+                return country_data['node_id'].iloc[0]
+            
+            # For future data - check future_data
+            if hasattr(self, 'future_data') and hasattr(self.future_data, 'countries'):
+                for i, (c, y) in enumerate(zip(self.future_data.countries, self.future_data.years)):
+                    if c == country and y == year:
+                        return i
+                        
+        except Exception as e:
+            print(f"Error finding node for {country} {year}: {e}")
+        
+        return None
     
     def _get_feature_names(self) -> List[str]:
         """Extract actual feature names from pivot_df structure"""

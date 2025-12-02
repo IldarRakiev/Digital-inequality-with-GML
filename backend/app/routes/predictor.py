@@ -37,7 +37,7 @@ async def predict_clusters(year: int):
 @router.get("/trends/{country}", response_model=CountryTrendResponse)
 async def get_country_trends(
     country: str, 
-    years_back: int = 5
+    years_back: int = 10
 ):
     """
     Get clusters history for current country

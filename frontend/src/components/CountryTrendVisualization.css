@@ -1,0 +1,189 @@
+.country-trend-container {
+  max-width: 1500px;
+  margin: 0;
+  border-radius: 24px;
+}
+
+.country-trend-inner {
+  display: flex;
+  gap: 32px;
+}
+
+/* ЛЕВАЯ ЧАСТЬ — СЛАЙДЕР СТРАН */
+
+.country-slider {
+  flex: 0 0 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 8px;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+  cursor: grab;
+  position: relative;
+}
+
+.country-slider:active {
+  cursor: grabbing;
+}
+
+.slider-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: #9ca3af;
+  margin-bottom: 12px;
+}
+
+.slider-window {
+  position: relative;
+  width: 100%;
+  padding: 18px 12px;
+  border-radius: 16px;
+  background: #fafafa;
+  overflow: hidden;
+}
+
+.slider-item {
+  text-align: center;
+  padding: 50px 6px;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.slider-item-above,
+.slider-item-below {
+  font-size: 24px;
+  font-weight: 500;
+  color: rgba(26, 26, 46, 0.45);
+}
+
+.slider-item-current {
+  font-size: 30px;
+  font-weight: 500;
+  color: #1a1a2e;
+  padding: 12px 6px;
+}
+
+.slider-center-highlight {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 50%;
+  height: 74px;
+  transform: translateY(-50%);
+  border-radius: 12px;
+  border: 2px solid #0066cc;
+  pointer-events: none;
+}
+
+/* ПРАВАЯ ЧАСТЬ — ГРАФИК + СТАТИСТИКА */
+
+.trend-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.trend-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.trend-title {
+  font-size: 26px;
+  font-weight: 300;
+  color: #1a1a2e;
+  letter-spacing: -0.02em;
+}
+
+/* SVG‑контейнер */
+
+.trend-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.trend-chart {
+  width: 100%;
+  max-width: 820px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+  padding: 16px;
+  box-sizing: border-box;
+  margin-bottom: 28px;
+}
+
+/* Сетка и оси */
+
+.grid line {
+  stroke: #e5e7eb;
+  stroke-opacity: 0.8;
+}
+
+.x-axis path,
+.y-axis path,
+.x-axis line,
+.y-axis line {
+  stroke: #d1d5db;
+}
+
+.x-axis text,
+.y-axis text {
+  fill: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Точки на графике */
+
+.trend-dot {
+  transition: all 0.2s ease;
+}
+
+.trend-dot:hover {
+  r: 10;
+  stroke-width: 4;
+  filter: drop-shadow(0 2px 8px rgba(0,102,204,0.45));
+}
+
+/* Статистика под графиком */
+.trend-stats {
+  display: flex;
+  gap: 60px;
+  justify-content: center;
+  width: 100%;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+/* Бейдж тренда */
+.trend-badge {
+  margin-top: -5%;  
+  font-size: 46px;
+  font-weight: 400;
+  min-width: 140px;
+  text-align: center;
+  display: inline-block;
+}
+
+.trend-badge.improving {
+  color: #28a745;
+}
+
+.trend-badge.declining {
+  color: #dc3545;
+}
+
+.trend-badge.stable {
+  color: #0066cc;
+}
