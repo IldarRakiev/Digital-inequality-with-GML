@@ -38,6 +38,17 @@ This project is intended for:
 
 ---
 
+## Files in Colab
+
+- **Graph construction:** [Colab Notebook](https://colab.research.google.com/drive/1nxhtajcyE0X76uUTH-wynvuRS1g5fy0W?usp=sharing), execution time: 0.7 minutes
+- **Baseline model:** [Colab Notebook](https://colab.research.google.com/drive/1XusE85LEdBnhVk-ewqeW5kRuxSWQjjmv?usp=sharing), execution time: 2 minutes
+- **Baseline Graph-Enhanced model:** [Colab Notebook](https://colab.research.google.com/drive/1FLJlCG7s-4t803if56kqyQ_JjAxe0loD?usp=sharing), execution time: 1.3 minutes
+- **GCN model:** [Colab Notebook](https://colab.research.google.com/drive/1Nr5g5gBcwcdt-D1Eda-YvSrWfHtKmRu4?usp=sharing), execution time: 1.6 minutes
+- **Graph-based forecasting:** [Colab Notebook](https://colab.research.google.com/drive/1e_FXxcPCUaI4M9H3lTZbus9edZEoUZMV), execution time: 27 minutes
+- **TGAT model experiments:** [Colab Notebook](https://colab.research.google.com/drive/1sgGCYfjBST10Akfg9l2kIPH_0PLy7zS6?usp=sharing), execution time: 0.5 minutes
+
+---
+
 ## What we tried to do during the project
 
 The project aimed to analyse global digital inequality with a graph-based approach. During the semester we followed a clear progression: build and clean a unified dataset of digital indicators, construct a meaningful graph connecting country-year records, design baseline solutions to establish reference performance, implement a GNN architecture to learn from the graph, and finally attempt a temporal-graph approach with TGAT to capture evolution over time. Below we describe these stages and the main technical choices we tried.
