@@ -1,7 +1,7 @@
 # A GNN Approach to Global Digital Inequality
 
 **ConnectLab team**  
-October 2025
+December 2025
 
 ---
 
@@ -192,16 +192,18 @@ The graph-based approach demonstrated that incorporating relational information 
 
 TGAT training was performed for 50 epochs. The notebook logs the training/test progression: test accuracy fluctuated in the range 0.66–0.70 during training, with the final checkpoint showing test accuracy near 0.64. The TGAT training log printed in the notebook shows test accuracy during training and the final reported values (selected epoch outputs):
 
-Epoch 05 | Loss: 1.0057 | Test Acc: 0.6717
-Epoch 10 | Loss: 1.0249 | Test Acc: 0.6621
-Epoch 15 | Loss: 1.0401 | Test Acc: 0.6662
-Epoch 20 | Loss: 1.0007 | Test Acc: 0.6703
-Epoch 25 | Loss: 0.9934 | Test Acc: 0.6689
-Epoch 30 | Loss: 0.9578 | Test Acc: 0.6689
-Epoch 35 | Loss: 0.9586 | Test Acc: 0.7003
-Epoch 40 | Loss: 0.9843 | Test Acc: 0.7003
-Epoch 45 | Loss: 0.9609 | Test Acc: 0.7016
-Epoch 50 | Loss: 0.9427 | Test Acc: 0.6444
+| Epoch | Loss   | Test Acc |
+|-------|--------|----------|
+| 05    | 1.0057 | 0.6717   |
+| 10    | 1.0249 | 0.6621   |
+| 15    | 1.0401 | 0.6662   |
+| 20    | 1.0007 | 0.6703   |
+| 25    | 0.9934 | 0.6689   |
+| 30    | 0.9578 | 0.6689   |
+| 35    | 0.9586 | 0.7003   |
+| 40    | 0.9843 | 0.7003   |
+| 45    | 0.9609 | 0.7016   |
+| 50    | 0.9427 | 0.6444   |
 
 We concluded that TGAT in the current implementation was unstable and did not outperform the GCN. The decision was to retain TGAT as an experimental branch and continue with the GCN-based pipeline for the main analysis and visualisation.
 
@@ -209,7 +211,7 @@ We concluded that TGAT in the current implementation was unstable and did not ou
 
 ### Autoencoder-based Forecasting
 
-The developed forecasting pipeline successfully learned temporal feature dynamics across countries and demonstrated stable performance during historical validation, achieving low MSE and MAE when comparing predicted and real 2023 indicators. After training on the full 2014–2023 dataset, the model generated feature projections for 2025 (Fig. 11), which were then embedded into a similarity-based graph for clustering. The pretrained GCN reliably separated countries into distinct inequality groups, producing consistent cluster assignments with high confidence scores. The resulting clusters reflect meaningful structural differences in future digital development patterns and offer an interpretable segmentation of expected digital inequality levels in 2025.
+The developed forecasting pipeline successfully learned temporal feature dynamics across countries and demonstrated stable performance during historical validation, achieving low MSE and MAE when comparing predicted and real 2023 indicators. After training on the full 2014–2023 dataset, the model generated feature projections for 2025, which were then embedded into a similarity-based graph for clustering. The pretrained GCN reliably separated countries into distinct inequality groups, producing consistent cluster assignments with high confidence scores. The resulting clusters reflect meaningful structural differences in future digital development patterns and offer an interpretable segmentation of expected digital inequality levels in 2025.
 
 ![2025 forecast](https://raw.githubusercontent.com/IldarRakiev/Digital-inequality-with-GML/main/images/forecast.png)
 
